@@ -141,7 +141,8 @@ function openResume(j) {
 }
 
 function safeName(j) {
-  return ("Subhajeet_Mohanty_" + (j.company || "") + "_" + (j.title || ""))
+  const who = (cfg && cfg.baseResume && cfg.baseResume.name) || "CV";
+  return (who + "_" + (j.company || "") + "_" + (j.title || ""))
     .replace(/[^A-Za-z0-9]+/g, "_").replace(/_+/g, "_").replace(/^_|_$/g, "").slice(0, 120);
 }
 
