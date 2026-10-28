@@ -34,6 +34,9 @@ function guessCompany(text) {
 function analyze(text, url) {
   const job = extractJob({ source: "paste", url: url || "(pasted)", html: text }, Object.keys(cfg.profile.skills || {}));
   if (!job.company) job.company = guessCompany(text);
+  // If the header line repeated the title, we have no real company name.
+  const norm = v => String(v || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+  if (job.company && job.title && norm(job.company) === norm(job.title)) job.company = "";
   const scored = scoreJob(job, cfg.profile);
   const t = tailor(job, scored, cfg.profile, cfg.evidence);
   const cls = classifyCompany(job.company);
@@ -125,9 +128,15 @@ function openResume(key) {
   const t = tailorResume(j._job, j._scored, cfg.baseResume);
   let html = renderResumeHtml(t, {});
   const css = `<style>@page{size:A4;margin:14mm 12mm}@media print{.noprint{display:none!important}}
-    .noprint{position:fixed;top:10px;right:10px;z-index:9999;font:14px system-ui;padding:10px 16px;
-    border:0;border-radius:6px;background:#4f8cff;color:#fff;cursor:pointer}</style>`;
-  const btn = '<button class="noprint" onclick="window.print()">Save as PDF</button>';
+    .noprint{position:fixed;top:10px;right:10px;z-index:9999;font:13px system-ui;
+      background:#171a23;color:#e6e8ee;border:1px solid #262b38;border-radius:8px;padding:12px;max-width:260px}
+    .noprint button{font:14px system-ui;padding:9px 15px;border:0;border-radius:6px;
+      background:#4f8cff;color:#fff;cursor:pointer;width:100%}
+    .noprint .hint{margin-top:9px;color:#8b93a7;line-height:1.45}</style>`;
+  const btn = '<div class="noprint">' +
+    '<button onclick="window.print()">Save as PDF</button>' +
+    '<div class="hint">In the print dialog open <b>More settings</b> and untick ' +
+    '<b>Headers and footers</b>, or the date and URL appear on the page.</div></div>';
   html = html.includes("</head>") ? html.replace("</head>", css + "</head>") : css + html;
   html = html.includes("<body>") ? html.replace("<body>", "<body>" + btn) : btn + html;
   const w = window.open("", "_blank");
