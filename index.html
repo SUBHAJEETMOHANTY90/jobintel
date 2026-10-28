@@ -138,6 +138,19 @@
 </main>
 </div>
 
-<script type="module" src="./app.js"></script>
+<script type="module" src="./app.js?v=1793171870663"></script>
+<noscript><p style="padding:20px">This tool needs JavaScript.</p></noscript>
+<script>
+  // If the module failed to load, both panels stay hidden. Say so.
+  window.addEventListener("error", function (e) {
+    var a = document.getElementById("app"), s = document.getElementById("setup");
+    if (a && s && a.style.display === "none" && s.style.display === "none") {
+      document.body.insertAdjacentHTML("afterbegin",
+        '<div style="padding:20px;font:14px system-ui;color:#ff5c5c">' +
+        'Failed to start: ' + (e.message || e) +
+        '<br><span style="color:#8b93a7">Try a hard refresh (Ctrl+Shift+R).</span></div>');
+    }
+  });
+</script>
 </body>
 </html>
