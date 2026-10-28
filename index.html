@@ -1,112 +1,143 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Job Intel</title>
+<title>job-intel</title>
 <style>
-  :root { --bg:#0f1115; --panel:#171a21; --line:#262b36; --fg:#e7eaf0; --muted:#8b93a7; --accent:#2563eb; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg);
-         font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
-  header { padding:14px 20px; border-bottom:1px solid var(--line); display:flex;
-           align-items:center; justify-content:space-between; }
-  h1 { font-size:17px; margin:0; letter-spacing:.3px; }
-  main { padding:20px; max-width:1200px; margin:0 auto; }
-  textarea, input { width:100%; background:#0c0e13; color:var(--fg);
-      border:1px solid var(--line); border-radius:8px; padding:10px; font:inherit; }
-  textarea { resize:vertical; }
-  button { background:#222733; color:var(--fg); border:1px solid var(--line);
-      border-radius:8px; padding:9px 15px; cursor:pointer; font:inherit; }
-  button:hover { border-color:#3a4252; }
-  button.primary { background:var(--accent); border-color:var(--accent); }
-  button.danger { background:#3a1d1d; border-color:#5b2a2a; }
-  .btns { display:flex; gap:9px; margin-top:12px; flex-wrap:wrap; }
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:20px; }
-  @media (max-width:860px){ .grid { grid-template-columns:1fr; } }
-  .panel { background:var(--panel); border:1px solid var(--line);
-           border-radius:12px; padding:16px; }
-  .row { display:flex; justify-content:space-between; gap:12px; padding:11px;
-         border:1px solid var(--line); border-radius:9px; margin-bottom:9px; cursor:pointer; }
-  .row:hover { border-color:#3a4252; }
-  .row.sel { border-color:var(--accent); background:#121a2c; }
-  .row-title { font-weight:600; }
-  .row-sub, .muted { color:var(--muted); font-size:13px; }
-  .row-score { text-align:right; white-space:nowrap; }
-  .pct { font-size:20px; font-weight:700; }
-  .verdict { font-size:11px; }
-  .v-apply{color:#4ade80}.v-look{color:#facc15}.v-stretch{color:#fb923c}.v-skip{color:#f87171}
-  .tags { margin-top:6px; display:flex; gap:5px; flex-wrap:wrap; }
-  .tier,.flag { font-size:10px; padding:2px 7px; border-radius:99px; border:1px solid var(--line); }
-  .t1{background:#14331f;color:#6ee7a0}.t2{background:#132a3d;color:#7cc4f5}
-  .t3{background:#2e2a14;color:#e3c96a}.t4{background:#2b2b2b;color:#aaa}
-  .flag { background:#331a1a; color:#f5a0a0; }
-  .scorebar { height:7px; background:#0c0e13; border-radius:99px; overflow:hidden; margin:12px 0; }
-  .scorebar div { height:100%; background:linear-gradient(90deg,#2563eb,#4ade80); }
-  .warn { color:#fbbf24; font-size:13px; }
-  .empty { color:var(--muted); text-align:center; padding:28px 0; }
-  h3 { font-size:13px; text-transform:uppercase; letter-spacing:.6px;
-       color:var(--muted); margin:18px 0 7px; }
-  ul { margin:0; padding-left:18px; } li { margin:3px 0; }
-  #toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(80px);
-    background:#222733; border:1px solid var(--line); padding:10px 18px; border-radius:9px;
-    transition:transform .25s; }
-  #toast.show { transform:translateX(-50%) translateY(0); }
-  .note { background:#131a2b; border:1px solid #24395e; padding:12px;
-          border-radius:9px; font-size:13px; color:#aebbd4; }
-  ol { padding-left:20px; } ol li { margin:7px 0; }
+  :root{--bg:#0f1117;--panel:#171a23;--line:#262b38;--txt:#e6e8ee;--dim:#8b93a7;--acc:#4f8cff;
+        --ok:#2ecc71;--warn:#f5a623;--bad:#ff5c5c;--look:#49c5b6;}
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt)}
+  header{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  h1{font-size:16px;margin:0;font-weight:600}
+  .sub{color:var(--dim);font-size:12px}
+  .grow{flex:1}
+  main{display:grid;grid-template-columns:minmax(400px,1fr) minmax(430px,1.05fr);height:calc(100vh - 53px)}
+  .left{border-right:1px solid var(--line);overflow:auto}
+  .right{overflow:auto;padding:20px}
+  .box{padding:13px 20px;border-bottom:1px solid var(--line)}
+  label{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:6px}
+  input,textarea,select{width:100%;background:#0b0d13;border:1px solid var(--line);color:var(--txt);
+    padding:8px 10px;border-radius:6px;font:inherit}
+  input:focus,textarea:focus{outline:none;border-color:var(--acc)}
+  button{background:var(--acc);color:#fff;border:0;padding:8px 14px;border-radius:6px;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+  button:hover{filter:brightness(1.1)} button:disabled{opacity:.5;cursor:default}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--txt);font-weight:500}
+  button.sm{padding:5px 10px;font-size:12px}
+  .row{display:flex;gap:7px;margin-top:8px}
+  .row input{flex:1}
+  table{width:100%;border-collapse:collapse}
+  th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--dim);
+     padding:8px 11px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:2}
+  td{padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr.job{cursor:pointer} tr.job:hover{background:#1a1e29} tr.job.sel{background:#1e2433}
+  .score{font-weight:700;font-size:15px}
+  .v{font-size:9.5px;font-weight:700;letter-spacing:.04em;padding:2px 6px;border-radius:20px;white-space:nowrap}
+  .APPLY{background:rgba(46,204,113,.15);color:var(--ok)}
+  .LOOK{background:rgba(73,197,182,.15);color:var(--look)}
+  .STRETCH{background:rgba(245,166,35,.15);color:var(--warn)}
+  .SKIP{background:rgba(255,92,92,.13);color:var(--bad)}
+  .t{font-weight:600} .c{color:var(--dim);font-size:12.5px}
+  .tier{font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;margin-left:5px}
+  .t1{background:rgba(79,140,255,.18);color:#7fb0ff}
+  .t2{background:rgba(73,197,182,.15);color:var(--look)}
+  .t25{background:#232838;color:var(--dim)}
+  .t3{background:rgba(139,147,167,.12);color:var(--dim)}
+  .t4{background:rgba(255,92,92,.1);color:var(--bad)}
+  .new{background:var(--acc);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;margin-left:5px}
+  .applied{font-size:10px;color:var(--ok);font-weight:700}
+  .empty{padding:36px 20px;color:var(--dim);text-align:center}
+  h2{font-size:14.5px;margin:20px 0 9px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  h2:first-child{margin-top:0}
+  .meta{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:13px}
+  .meta div:nth-child(odd){color:var(--dim)}
+  .flag{padding:8px 11px;border-radius:6px;margin-bottom:6px;font-size:12.5px;border-left:3px solid}
+  .flag.block{background:rgba(255,92,92,.09);border-color:var(--bad)}
+  .flag.warn{background:rgba(245,166,35,.09);border-color:var(--warn)}
+  .flag.info{background:rgba(79,140,255,.09);border-color:var(--acc)}
+  .chips{display:flex;flex-wrap:wrap;gap:5px}
+  .chip{background:#1d2230;border:1px solid var(--line);padding:3px 8px;border-radius:20px;font-size:11.5px}
+  .chip.gap{background:rgba(245,166,35,.1);border-color:rgba(245,166,35,.3);color:var(--warn)}
+  ul{margin:0;padding-left:17px} li{margin-bottom:7px;font-size:13px}
+  pre{background:#0b0d13;border:1px solid var(--line);border-radius:7px;padding:12px;
+      white-space:pre-wrap;font:12px/1.6 ui-monospace,Consolas,monospace;margin:0}
+  .act{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+  .spin{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.3);
+    border-top-color:#fff;border-radius:50%;animation:s .7s linear infinite;vertical-align:-2px}
+  @keyframes s{to{transform:rotate(360deg)}}
+  .note{color:var(--dim);font-size:11.5px;margin-top:5px}
+  a{color:var(--acc)}
+  .bar{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:7px}
+  .bar i{display:block;height:100%;background:var(--acc);transition:width .3s}
+  .filters{display:flex;gap:13px;align-items:center;font-size:12px;color:var(--dim);padding:9px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .filters label{display:flex;align-items:center;gap:5px;margin:0;text-transform:none;letter-spacing:0;font-size:12px;cursor:pointer}
+  .filters input[type=checkbox]{width:auto}
+  details{margin-top:8px} summary{cursor:pointer;color:var(--dim);font-size:12px}
+  .srow{display:flex;gap:6px;align-items:center;margin-bottom:5px;font-size:12.5px}
+  .srow span{flex:1}
+  code{background:#0b0d13;padding:1px 5px;border-radius:4px;font-size:11.5px}
 </style>
 </head>
 <body>
+
+<div id="setup" style="display:none;padding:40px 20px;max-width:720px;margin:0 auto">
+  <h1 style="font-size:19px">job-intel</h1>
+  <p class="note" style="font-size:13px">Your profile and CV stay in this browser only. They are never
+  uploaded and are not part of this site's code.</p>
+  <h2>One-time setup</h2>
+  <ol style="font-size:13px;color:var(--dim);padding-left:18px">
+    <li>In your job-intel folder run <code>node export-config.mjs --save</code></li>
+    <li>Open <code>my-config.json</code>, select all, copy</li>
+    <li>Paste below</li>
+  </ol>
+  <textarea id="cfgInput" rows="6" placeholder="Paste my-config.json here"></textarea>
+  <div class="note" id="cfgErr" style="color:var(--bad)"></div>
+  <div class="act"><button id="saveCfg">Save profile</button></div>
+</div>
+
+<div id="app" style="display:none">
 <header>
-  <h1>Job Intel</h1>
-  <button id="resetBtn">Clear this device</button>
+  <h1>job-intel</h1>
+  <span class="sub" id="stat"></span>
+  <span class="grow"></span>
+  <button class="ghost sm" id="wipe">Clear this device</button>
 </header>
 
+<div class="filters">
+  <label><input type="checkbox" id="fHide" checked> Hide SKIP</label>
+  <label><input type="checkbox" id="fApplied"> Hide applied</label>
+  <label><input type="checkbox" id="fProduct"> Product companies only</label>
+  <span class="grow"></span>
+  <span id="count" class="sub"></span>
+</div>
+
 <main>
-  <!-- first-run setup -->
-  <section id="setup" style="display:none">
-    <div class="panel">
-      <h2 style="margin-top:0">One-time setup</h2>
-      <p class="note">
-        Your profile and CV are stored only in this browser. They are never
-        uploaded and are not part of the published site.
-      </p>
-      <ol>
-        <li>On your laptop, in your job-intel folder, run:<br>
-            <code>node export-config.mjs --save</code></li>
-        <li>Open the generated <code>my-config.json</code> and copy everything.</li>
-        <li>Paste it below.</li>
-      </ol>
-      <textarea id="cfgInput" rows="7" placeholder="Paste my-config.json here"></textarea>
-      <p id="cfgErr" class="warn"></p>
-      <div class="btns"><button class="primary" id="saveCfg">Save profile</button></div>
-    </div>
-  </section>
-
-  <!-- main app -->
-  <section id="app" style="display:none">
-    <div class="panel">
-      <h3 style="margin-top:0">Paste a job description</h3>
-      <p class="muted">
-        On the LinkedIn job page click "See more", then select all (Ctrl+A),
-        copy (Ctrl+C) and paste below.
-      </p>
-      <textarea id="jdInput" rows="7" placeholder="Paste the full job description..."></textarea>
-      <div style="margin-top:9px"><input id="jdUrl" placeholder="Job URL (optional, for your reference)"></div>
-      <div class="btns"><button class="primary" id="analyzeBtn">Analyze</button></div>
+  <div class="left">
+    <div class="box">
+      <label>Paste a job description</label>
+      <textarea id="jd" rows="5" placeholder="On the LinkedIn job page click See more, then Ctrl+A, Ctrl+C and paste the whole thing here."></textarea>
+      <div class="row">
+        <input id="url" placeholder="Job link (optional, so you can reopen it)" />
+        <button id="go">Analyze</button>
+      </div>
+      <div class="note">Runs entirely in this browser. Nothing is sent anywhere.</div>
     </div>
 
-    <div class="grid">
-      <div class="panel"><h3 style="margin-top:0">Jobs</h3><div id="list"></div></div>
-      <div class="panel"><div id="detail"></div></div>
-    </div>
-  </section>
+    <table>
+      <thead><tr><th>Match</th><th>Role</th><th>Location</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty">No jobs yet. Paste a job description above.</div>
+  </div>
+
+  <div class="right" id="detail">
+    <div class="empty">Select a job to see gaps, bullets and the recruiter note.</div>
+  </div>
 </main>
+</div>
 
-<div id="toast"></div>
 <script type="module" src="./app.js"></script>
 </body>
 </html>
-
